@@ -14,10 +14,10 @@ $credentials = [
     'profile' => 'default',
 ];
 //All testing should be done outside of production environment
-$productionEnvironment = false;
+$isProductionEnvironment = false;
 //Krossover Token is the token you get after authenticating with our API
 //with POST /oauth/token
-$krossoverToken = '9ca0af00073bae677ae491e4c09f4c1bc3ed6df3';
+$krossoverToken = '82f55a5517df45c794708addc0e497ac8afb84f8';
 //Hockey.TV client id is 12
 $clientId = 12;
 //Hockey TV user information
@@ -30,6 +30,6 @@ $filePath = '../videos/';
 
 
 //We upload the video
-$uploader = new Krossover\Uploader($credentials, $productionEnvironment, $krossoverToken, $clientId);
+$uploader = new Krossover\Uploader($credentials, $isProductionEnvironment, $krossoverToken, $clientId);
 $uploader->uploadFile($fileName, $filePath);
 $videoGuid = $uploader->getGuid();
