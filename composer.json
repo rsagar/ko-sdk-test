@@ -1,0 +1,18 @@
+{
+    "name": "brestrepo/sdk-test",
+    "authors": [
+        {
+            "name": "Bernardo Restrepo",
+            "email": "bernardo.restrepo@gmail.com"
+        }
+    ],
+    "require": {
+        "krossover/krossover-sdk-php": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:krossoverintelligence/krossover-sdk-php.git"
+        }
+    ]
+}
