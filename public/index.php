@@ -17,7 +17,7 @@ $credentials = [
 $isProductionEnvironment = false;
 //Krossover Token is the token you get after authenticating with our API
 //with POST /oauth/token
-$krossoverToken = '82f55a5517df45c794708addc0e497ac8afb84f8';
+$krossoverToken = 'f540dce4d276cac65001b5d3816f62b64409aba5';
 //Hockey.TV client id is 12
 $clientId = 12;
 //Hockey TV user information
@@ -28,8 +28,41 @@ $teamId = 918056;
 $fileName = 'sample.mp4';
 $filePath = '../videos/';
 
+//Information required to create the game
+//There are a few assumptions we're making here
+//1. You have the home and away team ids
+//2. All games are of type scouting
+//3. All teams are properly set up on our database
+$homeTeamId = 455642;
+$awayTeamId = 12150;
+$type = Krossover\Models\Game::TYPE_SCOUTING;
+$gender = Krossover\Models\Game::GENDER_MALE;
+$sportId = Krossover\Models\Sport::ICE_HOCKEY_SPORT_ID;
+$datePlayed = new \DateTime();
+
 
 //We upload the video
 $uploader = new Krossover\Uploader($credentials, $isProductionEnvironment, $krossoverToken, $clientId);
 $uploader->uploadFile($fileName, $filePath);
 $videoGuid = $uploader->getGuid();
+
+//We create the game
+$game = new Krossover\Game(
+    $datePlayed,
+    $type,
+    $gender,
+    $teamId,
+    $userId,
+    $sportId,
+    $isProductionEnvironment,
+    $krossoverToken,
+    $clientId
+);
+//We set up the games
+//$id, $score, $primaryJerseyColor, $secondaryJerseyColor
+$game->setHomeTeam($homeTeamId, 0, '#FFFFFF', '#FF0000');
+$game->setAwayTeam($awayTeamId, 0, '#000000');
+//We pass the guid of the video we just uploaded
+$game->setVideo($videoGuid);
+//And submit for breakdown
+$game->saveGameAndSubmitForBreakdown();
