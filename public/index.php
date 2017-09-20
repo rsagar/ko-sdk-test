@@ -1,5 +1,8 @@
 <?php
 require_once('../vendor/autoload.php');
+//This must be updated to the dir where your .env file is
+$dotenv = new Dotenv\Dotenv(__DIR__.'/../');
+$dotenv->load();
 
 /**
  * You need to change this to the appropiate values
@@ -15,11 +18,18 @@ $credentials = [
 ];
 //All testing should be done outside of production environment
 $isProductionEnvironment = false;
-//Krossover Token is the token you get after authenticating with our API
-//with POST /oauth/token
-$krossoverToken = 'f540dce4d276cac65001b5d3816f62b64409aba5';
 //Hockey.TV client id is 12
-$clientId = 12;
+$clientId = getenv('KROSSOVER_CLIENT_ID');
+
+//I use environmental vars to avoid hardcoding sensible information in my code.
+//This requires you to create a .env file (check the .env.example file I added to the code)
+//Make sure dot env is able to find the file
+$username = getenv('KROSSOVER_USERNAME');
+$password = getenv('KROSSOVER_PASSWORD');
+
+$auth = new Krossover\Authentication($isProductionEnvironment, $clientId);
+$krossoverToken = $auth->getKOOauthToken($username, $password);
+
 //Hockey TV user information
 $userId = 366901;
 $teamId = 918056;
