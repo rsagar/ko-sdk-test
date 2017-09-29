@@ -76,3 +76,40 @@ $game->setAwayTeam($awayTeamId, 0, '#000000');
 $game->setVideo($videoGuid);
 //And submit for breakdown
 $game->saveGameAndSubmitForBreakdown();
+
+//We want to auto share the game to a breakdown library so it can be copied to the teams
+//and we can get the analytics for each one of the teams
+//NAHL breakdown exchange - NAHL+NAHL+Male+6
+//NA3HL breakdown exchange - NA3HL+NA3HL+Male+6
+$breakdownExchanges = [
+    'nahl' => [
+        'association' => 'NAHL',
+        'conference' => 'NAHL',
+        'gender' => 'Male',
+        'sportId' => 6
+    ],
+    'na3hl' => [
+        'association' => 'NA3HL',
+        'conference' => 'NA3HL',
+        'gender' => 'Male',
+        'sportId' => 6
+    ]
+];
+
+$conference = 'NAHL';
+
+if ($conference === 'NAHL') {
+    $game->shareToFilmExchange(
+        $breakdownExchanges['nahl']['association'],
+        $breakdownExchanges['nahl']['conference'],
+        $breakdownExchanges['nahl']['gender'],
+        $breakdownExchanges['nahl']['sportId']
+    );
+} else {
+    $game->shareToFilmExchange(
+        $breakdownExchanges['na3hl']['association'],
+        $breakdownExchanges['na3hl']['conference'],
+        $breakdownExchanges['na3hl']['gender'],
+        $breakdownExchanges['na3hl']['sportId']
+    );
+}
