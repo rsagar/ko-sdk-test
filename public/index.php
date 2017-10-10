@@ -43,8 +43,8 @@ $filePath = '../videos/';
 //1. You have the home and away team ids
 //2. All games are of type scouting
 //3. All teams are properly set up on our database
-$homeTeamId = 455642;
-$awayTeamId = 12150;
+$homeTeamId = 924193;
+$awayTeamId = 924215;
 $type = Krossover\Models\Game::TYPE_SCOUTING;
 $gender = Krossover\Models\Game::GENDER_MALE;
 $sportId = Krossover\Models\Sport::ICE_HOCKEY_SPORT_ID;
@@ -79,37 +79,4 @@ $game->saveGameAndSubmitForBreakdown();
 
 //We want to auto share the game to a breakdown library so it can be copied to the teams
 //and we can get the analytics for each one of the teams
-//NAHL breakdown exchange - NAHL+NAHL+Male+6
-//NA3HL breakdown exchange - NA3HL+NA3HL+Male+6
-$breakdownExchanges = [
-    'nahl' => [
-        'association' => 'NAHL',
-        'conference' => 'NAHL',
-        'gender' => 'Male',
-        'sportId' => 6
-    ],
-    'na3hl' => [
-        'association' => 'NA3HL',
-        'conference' => 'NA3HL',
-        'gender' => 'Male',
-        'sportId' => 6
-    ]
-];
-
-$conference = 'NAHL';
-
-if ($conference === 'NAHL') {
-    $game->shareToFilmExchange(
-        $breakdownExchanges['nahl']['association'],
-        $breakdownExchanges['nahl']['conference'],
-        $breakdownExchanges['nahl']['gender'],
-        $breakdownExchanges['nahl']['sportId']
-    );
-} else {
-    $game->shareToFilmExchange(
-        $breakdownExchanges['na3hl']['association'],
-        $breakdownExchanges['na3hl']['conference'],
-        $breakdownExchanges['na3hl']['gender'],
-        $breakdownExchanges['na3hl']['sportId']
-    );
-}
+$game->shareWithTeamsPrimaryConferences();
