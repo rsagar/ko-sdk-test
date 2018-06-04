@@ -18,7 +18,7 @@ $credentials = [
 ];
 //All testing should be done outside of production environment
 $isProductionEnvironment = false;
-//Hockey.TV client id is 12
+//Blue Frame client id is 13
 $clientId = getenv('KROSSOVER_CLIENT_ID');
 
 //I use environmental vars to avoid hardcoding sensible information in my code.
@@ -30,9 +30,10 @@ $password = getenv('KROSSOVER_PASSWORD');
 $auth = new Krossover\Authentication($isProductionEnvironment, $clientId);
 $krossoverToken = $auth->getKOOauthToken($username, $password);
 
-//Hockey TV user information
-$userId = 366901;
-$teamId = 918056;
+//Blue Frame user information
+$userId = 536720;
+//Team to which game has to be uploaded to
+$uploadingForTeamId = 12576;
 
 //Video Information (path relative to this document + name)
 $fileName = 'sample.mp4';
@@ -41,15 +42,14 @@ $filePath = '../videos/';
 //Information required to create the game
 //There are a few assumptions we're making here
 //1. You have the home and away team ids
-//2. All games are of type scouting
+//2. All games are of type scouting, unless the game is played by team we are uploading to
 //3. All teams are properly set up on our database
-$homeTeamId = 924193;
-$awayTeamId = 924215;
+$homeTeamId = 12576;
+$awayTeamId = 18852;
 $type = Krossover\Models\Game::TYPE_SCOUTING;
 $gender = Krossover\Models\Game::GENDER_MALE;
-$sportId = Krossover\Models\Sport::ICE_HOCKEY_SPORT_ID;
+$sportId = Krossover\Models\Sport::BASKETBALL_SPORT_ID;
 $datePlayed = new \DateTime();
-
 
 //We upload the video
 $uploader = new Krossover\Uploader($credentials, $isProductionEnvironment, $krossoverToken, $clientId);
@@ -61,7 +61,7 @@ $game = new Krossover\Game(
     $datePlayed,
     $type,
     $gender,
-    $teamId,
+    $uploadingForTeamId,
     $userId,
     $sportId,
     $isProductionEnvironment,
@@ -74,9 +74,5 @@ $game->setHomeTeam($homeTeamId, 0, '#FFFFFF', '#FF0000');
 $game->setAwayTeam($awayTeamId, 0, '#000000');
 //We pass the guid of the video we just uploaded
 $game->setVideo($videoGuid);
-//And submit for breakdown
-$game->saveGameAndSubmitForBreakdown();
-
-//We want to auto share the game to a breakdown library so it can be copied to the teams
-//and we can get the analytics for each one of the teams
-$game->shareWithTeamsPrimaryConferences();
+//save the game
+$game->saveGame();
