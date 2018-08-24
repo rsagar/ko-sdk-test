@@ -78,7 +78,8 @@ $game->setHomeTeam($homeTeamId, 0, '#FFFFFF', '#FF0000');
 //If the team you know is the away team you can use setAwayTeam instead of setHomeTeam
 $game->createOpponentTeam("New Team's Name" , 1, '#FF0000');
 
-//We pass the guid of the video we just uploaded
-$game->setVideo($videoGuid);
 //save the game
 $game->saveGame();
+
+//We pass the guid of the video we just uploaded
+$game->setVideo($videoGuid);
