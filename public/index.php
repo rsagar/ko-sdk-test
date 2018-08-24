@@ -72,7 +72,9 @@ $game = new Krossover\Game(
 //$id, $score, $primaryJerseyColor, $secondaryJerseyColor
 $game->setHomeTeam($homeTeamId, 0, '#FFFFFF', '#FF0000');
 $game->setAwayTeam($awayTeamId, 0, '#000000');
-//We pass the guid of the video we just uploaded
-$game->setVideo($videoGuid);
+
 //save the game
 $game->saveGame();
+
+//We pass the guid of the video we just uploaded
+$game->setVideo($videoGuid);
